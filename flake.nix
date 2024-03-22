@@ -71,8 +71,10 @@
                 echo "- Command that will create the Android emulator to run the application"
               '';
 
-              # Create the initial AVD that's needed by the emulator
-              scripts.create-avd.exec = "avdmanager create avd --force --name phone --package 'system-images;android-32;google_apis;x86_64'";
+              scripts.create-avd = {
+                description = "Script that will create the Android Emulator to run the application";
+                exec = "avdmanager create avd --force --name phone --package 'system-images;android-32;google_apis;x86_64'";
+              };
 
               # These processes will all run whenever we run `devenv run`
               processes.emulator.exec = "emulator -avd phone -skin 720x1280";
