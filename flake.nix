@@ -4,8 +4,14 @@
   inputs = {
     nixpkgs.url = "github:cachix/devenv-nixpkgs/rolling";
     systems.url = "github:nix-systems/default";
-    devenv.url = "github:cachix/devenv";
-    devenv.inputs.nixpkgs.follows = "nixpkgs";
+    devenv = {
+      url = "github:cachix/devenv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    android-nixpkgs = {
+      url = "github:tadfisher/android-nixpkgs/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -16,6 +22,7 @@
   outputs = {
     self,
     nixpkgs,
+    android-nixpkgs,
     devenv,
     systems,
     ...
@@ -29,20 +36,43 @@
     devShells =
       forEachSystem
       (system: let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        };
+        sdk = (import android-nixpkgs {}).sdk (sdkPkgs:
+          with sdkPkgs; [
+            build-tools-34-0-0
+            cmdline-tools-latest
+            emulator
+            platform-tools
+            platforms-android-34
+            system-images-android-32-google-apis-x86-64
+          ]);
       in {
         default = devenv.lib.mkShell {
           inherit inputs pkgs;
           modules = [
             {
               # https://devenv.sh/reference/options/
-              packages = [pkgs.hello];
+              packages = with pkgs; [
+                android-studio
+                sdk
+                nodejs_20
+                yarn
+              ];
 
               enterShell = ''
-                hello
+                export PATH="${sdk}/bin:$PATH"
+                ${(builtins.readFile "${sdk}/nix-support/setup-hook")}
               '';
 
-              processes.run.exec = "hello";
+              # Create the initial AVD that's needed by the emulator
+              scripts.create-avd.exec = "avdmanager create avd --force --name phone --package 'system-images;android-32;google_apis;x86_64'";
+
+              # These processes will all run whenever we run `devenv run`
+              processes.emulator.exec = "emulator -avd phone -skin 720x1280";
+              processes.react-native.exec = "npx react-native start";
             }
           ];
         };
