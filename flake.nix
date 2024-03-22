@@ -78,7 +78,7 @@
 
               # These processes will all run whenever we run `devenv run`
               processes.emulator.exec = "emulator -avd phone -skin 720x1280";
-              processes.react-native.exec = "npx react-native start";
+              processes.expo.exec = "npx expo start";
             }
           ];
         };
