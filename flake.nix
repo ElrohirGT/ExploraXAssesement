@@ -65,6 +65,10 @@
               enterShell = ''
                 export PATH="${sdk}/bin:$PATH"
                 ${(builtins.readFile "${sdk}/nix-support/setup-hook")}
+
+                echo "Welcome! Here are some scripts you can run on this shell:"
+                echo "$ create-avd"
+                echo "- Command that will create the Android emulator to run the application"
               '';
 
               # Create the initial AVD that's needed by the emulator
