@@ -60,6 +60,7 @@
                 sdk
                 nodejs_20
                 yarn
+                dprint
               ];
 
               enterShell = ''
