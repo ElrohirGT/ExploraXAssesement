@@ -12,7 +12,7 @@ const dividerTitulo = require("../../assets/elementos_estaticos/Línea_título
 const dGlow = require("../../assets/elementos_estaticos/pantalla_puntos/DconGlow.png");
 const dGlowFire = require("../../assets/elementos_estaticos/pantalla_puntos/Llama.png");
 
-export default function Instructions({
+export default function InstructionsView({
   title,
   description,
   mission,

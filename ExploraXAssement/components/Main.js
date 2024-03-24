@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text } from "react-native";
-import Instructions from "./pages/Instrucctions";
+import InstructionsView from "./pages/InstructionsView";
 import { useState } from "react";
 
 const INSTRUCTIONS_VIEW_PAGE = "instructions";
@@ -10,14 +10,14 @@ export default function Main() {
   const [currentView, setCurrentView] = useState(INSTRUCTIONS_VIEW_PAGE);
   const VIEWS = {};
   VIEWS[INSTRUCTIONS_VIEW_PAGE] = (
-    <Instructions
+    <InstructionsView
       title="¡Desafíate!"
       description="Supera estos desafíos y empieza a completar la misión de:"
       mission="Jerarquía de Operaciones"
       onNextButtonPressed={() => {
         setCurrentView(QUESTION_VIEW_PAGE);
       }}
-    ></Instructions>
+    ></InstructionsView>
   );
 
   return <View style={styles.container}>{VIEWS[currentView]}</View>;
