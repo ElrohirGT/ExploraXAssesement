@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
+import Svg, { Path } from "react-native-svg";
 import { IS_ANDROID, IS_WEB } from "../constants";
 
 const coin = require("../assets/elementos_estaticos/moneda.png");
 
-export default function Header() {
-  const [money, setMoney] = useState(0);
+export default function Header({ money }) {
   const styles = IS_WEB
     ? StyleSheet.flatten(mobileStyles, webStyles)
     : mobileStyles;
+  const a = <Text style={styles.moreCoinsButtonText}>^</Text>;
 
   return (
     <View style={styles.container}>
@@ -17,7 +17,20 @@ export default function Header() {
       </View>
       <Text style={styles.coinsText}>{money}</Text>
       <Pressable style={styles.moreCoinsButton}>
-        <Text style={styles.moreCoinsButtonText}>^</Text>
+        <Svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          style={styles.moreCoinsButtonIcon}
+        >
+          <Path
+            fill="none"
+            stroke="#fff"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="3.50"
+            d="m19 15-7-6-7 6"
+          />
+        </Svg>
       </Pressable>
     </View>
   );
@@ -29,9 +42,11 @@ const mobileStyles = StyleSheet.create({
     justifyContent: "flex-end",
     flexDirection: "row",
     alignItems: "center",
+    gap: 5,
+    padding: 10,
   },
   coinImageContainer: {
-    marginRight: -5,
+    marginRight: -10,
     zIndex: 2,
     elevation: IS_ANDROID ? 2 : 0,
   },
@@ -53,14 +68,12 @@ const mobileStyles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 10,
-    justifyContent: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
   },
-  moreCoinsButtonText: {
-    color: "white",
-    fontSize: 32,
-    lineHeight: 32,
-    textAlign: "center",
-    fontWeight: "900",
+  moreCoinsButtonIcon: {
+    width: 32,
+    height: 32,
   },
 });
 
