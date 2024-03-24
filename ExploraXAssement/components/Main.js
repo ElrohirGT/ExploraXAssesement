@@ -1,13 +1,19 @@
 import { View, StyleSheet, Text } from "react-native";
 import InstructionsView from "./pages/InstructionsView";
+import QuestionView from "./pages/QuestionView";
 import { useState } from "react";
+import { DEFAULT_QUESTIONS } from "../constants";
 
 const INSTRUCTIONS_VIEW_PAGE = "instructions";
 const QUESTION_VIEW_PAGE = "question";
 
 export default function Main() {
   const styles = StyleSheet.flatten(mobileStyles, webStyles);
-  const [currentView, setCurrentView] = useState(INSTRUCTIONS_VIEW_PAGE);
+  const [currentView, setCurrentView] = useState(QUESTION_VIEW_PAGE);
+  const [questions, setQuestions] = useState(DEFAULT_QUESTIONS);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const currentQuestion = questions[currentQuestionIndex];
+
   const VIEWS = {};
   VIEWS[INSTRUCTIONS_VIEW_PAGE] = (
     <InstructionsView
@@ -17,7 +23,14 @@ export default function Main() {
       onNextButtonPressed={() => {
         setCurrentView(QUESTION_VIEW_PAGE);
       }}
-    ></InstructionsView>
+    />
+  );
+
+  VIEWS[QUESTION_VIEW_PAGE] = (
+    <QuestionView
+      question={currentQuestion}
+      progress={{ min: currentQuestionIndex + 1, max: questions.length }}
+    />
   );
 
   return <View style={styles.container}>{VIEWS[currentView]}</View>;

@@ -53,11 +53,12 @@ export default function InstructionsView({
         <Text style={styles.title}>{title}</Text>
         <Image
           source={dividerTitulo}
-          style={[styles.divider, { width: contentWidth / 2 }]}
+          style={[styles.divider, { width: contentWidth }]}
+          resizeMode="contain"
         />
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.mission}>{mission}</Text>
-        <Pressable style={styles.button}>
+        <Pressable style={styles.button} onPress={onNextButtonPressed}>
           <Text style={styles.buttonText}>¡ACEPTO EL RETO!</Text>
         </Pressable>
       </View>
@@ -107,7 +108,6 @@ const mobileStyles = StyleSheet.create({
 
   divider: {
     alignSelf: "center",
-    height: 3,
   },
 
   title: {
