@@ -12,7 +12,7 @@ export default function Header({ money }) {
   return (
     <View style={styles.container}>
       <View style={styles.coinImageContainer}>
-        <Image source={coin} style={styles.coinImage} />
+        <Image source={coin} style={styles.coinImage} resizeMode="contain" />
       </View>
       <Text style={styles.coinsText}>{money}</Text>
       <Pressable style={styles.moreCoinsButton}>
