@@ -24,17 +24,16 @@ export default function Footer() {
   const styles = StyleSheet.flatten(mobileStyles, webStyles);
   const { height, width } = useWindowDimensions();
   const logoDimensions = {
-    width: height / 5,
-    height: height / 5,
+    width: height / 6,
+    height: height / 6,
   };
-  const backgroundShapeHeigth = height / 5;
+  const backgroundShapeHeigth = height / 6;
   const backgroundShape = {
     width,
+    height: width,
     marginTop: -backgroundShapeHeigth,
-    height: backgroundShapeHeigth,
-    borderTopRightRadius: width,
-    borderTopLeftRadius: width,
-    transform: [{ scaleX: 1.4 }],
+    borderRadius: width,
+    transform: [{ scaleX: 1.5 }],
   };
 
   return (
@@ -68,6 +67,7 @@ const mobileStyles = StyleSheet.create({
     flex: 2,
     alignItems: "center",
   },
+
   backgroundShape: {
     borderColor: "#61c9d2",
     borderTopWidth: 5,
@@ -76,14 +76,20 @@ const mobileStyles = StyleSheet.create({
     backgroundColor: "#0e4c71",
     zIndex: 1,
   },
+
   menu: {
     flexDirection: "row",
     justifyContent: "space-around",
+    alignItems: "flex-end",
     zIndex: 2,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
+
   menuLogo: {},
+
   menuButton: {
-    alignSelf: "center",
+    marginBottom: 20,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
@@ -92,6 +98,7 @@ const mobileStyles = StyleSheet.create({
     backgroundColor: "#9bdafa",
     ...MENU_BUTTON_DIMENSIONS,
   },
+
   menuButtonIcon: {
     ...MENU_BUTTON_DIMENSIONS,
     width: MENU_BUTTON_DIMENSIONS.width - 10,

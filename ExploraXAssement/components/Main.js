@@ -25,7 +25,7 @@ export default function Main() {
 
 const mobileStyles = StyleSheet.create({
   container: {
-    flex: 8,
+    flex: 10,
     justifyContent: "center",
   },
 });
