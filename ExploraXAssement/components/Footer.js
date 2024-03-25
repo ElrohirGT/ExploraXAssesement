@@ -49,32 +49,36 @@ export default function Footer() {
  * @param {number} screenHeight
  */
 function generateStyles(screenWidth, screenHeight) {
-  const menuLogoHeight = screenHeight / 5;
+  const menuLogoHeight = screenHeight / 10;
+  const menuLogoWidth = (menuLogoHeight * 401) / 246;
 
   const mobileStyles = StyleSheet.create({
     container: {
-      flex: 1,
+      position: "absolute",
+      bottom: 0,
       alignItems: "center",
     },
 
     backgroundShape: {
       position: "absolute",
+      zIndex: 1,
 
       borderColor: "#61c9d2",
       borderTopWidth: 5,
       borderRightWidth: 5,
       borderLeftWidth: 5,
       backgroundColor: "#0e4c71",
-      zIndex: 1,
 
       width: screenWidth,
       height: screenWidth,
-      top: menuLogoHeight / -3.5,
+      top: -menuLogoHeight / 8,
       borderRadius: screenWidth,
       transform: [{ scaleX: 1.5 }],
     },
 
     menu: {
+      width: screenWidth,
+
       flex: 1,
       flexDirection: "row",
       justifyContent: "space-around",
@@ -84,15 +88,12 @@ function generateStyles(screenWidth, screenHeight) {
       paddingLeft: 10,
       paddingBottom: 10,
       gap: screenWidth / 50,
-
-      width: screenWidth,
     },
 
     menuLogo: {
-      flex: 3,
-      alignSelf: "center",
+      alignSelf: "flex-end",
+      width: menuLogoWidth,
       height: menuLogoHeight,
-      marginBottom: menuLogoHeight / 5,
     },
 
     menuButton: {
@@ -100,7 +101,7 @@ function generateStyles(screenWidth, screenHeight) {
       alignSelf: "flex-end",
       alignItems: "center",
       justifyContent: "center",
-      height: menuLogoHeight / 4,
+      height: menuLogoHeight / 2,
 
       borderRadius: 5,
       borderColor: "#54a0c4",
@@ -110,16 +111,19 @@ function generateStyles(screenWidth, screenHeight) {
 
     menuButtonIcon: {
       width: screenWidth / 8,
-      height: menuLogoHeight / 5,
+      height: menuLogoHeight / 3,
     },
   });
+
+  const webMenuLogoHeight = screenHeight / 5;
+  const webMenuLogoWidth = (menuLogoHeight * 401) / 246;
 
   const webStyles = StyleSheet.create({
     menuLogo: {
       flex: 2,
       alignSelf: "center",
-      height: menuLogoHeight,
-      marginBottom: menuLogoHeight / 1.5,
+      width: webMenuLogoWidth,
+      height: webMenuLogoHeight,
     },
 
     backgroundShape: {
@@ -134,9 +138,27 @@ function generateStyles(screenWidth, screenHeight) {
 
       width: screenWidth,
       height: screenWidth,
-      top: menuLogoHeight / -1.2,
+      top: -webMenuLogoHeight / 7,
       borderRadius: screenWidth,
       transform: [{ scaleX: 2 }],
+    },
+
+    menuButton: {
+      flex: 1,
+      alignSelf: "flex-end",
+      alignItems: "center",
+      justifyContent: "center",
+      height: webMenuLogoHeight / 2,
+
+      borderRadius: 5,
+      borderColor: "#54a0c4",
+      borderBottomWidth: 4,
+      backgroundColor: "#9bdafa",
+    },
+
+    menuButtonIcon: {
+      width: screenWidth / 8,
+      height: webMenuLogoHeight / 3,
     },
   });
 

@@ -65,7 +65,7 @@ function generateStyles(screenWidth, screenHeight) {
 
     dGlowLogo: {
       position: "absolute",
-      top: contentHeight / 12,
+      top: contentHeight / 6,
       left: -contentWidth / 20,
       width: dGlowWidth,
       height: dGlowWidth,
@@ -75,7 +75,7 @@ function generateStyles(screenWidth, screenHeight) {
     chaninImage: {
       position: "absolute",
       left: -screenWidth / 2 + screenWidth / 8,
-      bottom: 0,
+      bottom: screenHeight / 20,
       width: screenWidth,
       height: screenHeight / 3,
     },
@@ -159,6 +159,14 @@ function generateStyles(screenWidth, screenHeight) {
       width: webDglowWidth,
       height: webDglowWidth,
       zIndex: 2,
+    },
+
+    chaninImage: {
+      position: "absolute",
+      left: -screenWidth / 2 + screenWidth / 8,
+      bottom: screenHeight / 8,
+      width: screenWidth,
+      height: screenHeight / 3,
     },
 
     mainContent: {
