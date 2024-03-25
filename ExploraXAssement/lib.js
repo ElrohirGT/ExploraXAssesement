@@ -20,3 +20,7 @@ export function genericJoin(parts, delimiter) {
 
   return r;
 }
+
+export const IS_CORRECT = "is_correct";
+export const IS_INCORRECT = "is_incorrect";
+export const NOT_ANSWERED = "not_answered";

@@ -10,12 +10,9 @@ import ProgressBar from "../atoms/ProgressBar";
 import { genericJoin } from "../../lib";
 import QuestionOption from "../atoms/QuestionOption";
 import { useMemo, useState } from "react";
+import { IS_CORRECT, IS_INCORRECT, NOT_ANSWERED } from "../../lib";
 
 const divider = require("../../assets/elementos_estaticos/Línea_título.png");
-
-const IS_CORRECT = "is_correct";
-const IS_INCORRECT = "is_incorrect";
-const NOT_ANSWERED = "not_answered";
 
 /**
  * QuestionView props
@@ -29,9 +26,7 @@ const NOT_ANSWERED = "not_answered";
  */
 export default function QuestionView({ title, question, progress }) {
   const styles = StyleSheet.flatten(mobileStyles, webStyles);
-  const { width } = useWindowDimensions();
-  const questionDescriptionWidth = (width * 3) / 4;
-  const inputs = useMemo(() => generateInputs(question), [question]);
+  const [isAnswered, setIsAnswered] = useState(NOT_ANSWERED);
   const answeredCorrectly = () => {
     console.log("Answered correctly!");
     setIsAnswered(IS_CORRECT);
@@ -40,20 +35,13 @@ export default function QuestionView({ title, question, progress }) {
     console.log("Answered incorrectly!");
     setIsAnswered(IS_INCORRECT);
   };
-  const options = useMemo(
-    () =>
-      mapQuestionOptionsToComponents(
-        question,
-        inputs,
-        questionDescriptionWidth,
-        isAnswered,
-        answeredCorrectly,
-        answeredIncorrectly,
-      ),
+
+  const { width } = useWindowDimensions();
+  const questionDescriptionWidth = (width * 3) / 4;
+  const { options, inputs } = useMemo(
+    () => generateOptions(question, answeredCorrectly, answeredIncorrectly),
     [question],
   );
-
-  const [isAnswered, setIsAnswered] = useState(NOT_ANSWERED);
 
   return (
     <View style={styles.container}>
@@ -91,7 +79,11 @@ export default function QuestionView({ title, question, progress }) {
             { width: questionDescriptionWidth },
           ]}
         >
-          {options}
+          {mapOptionsToComponents(
+            options,
+            questionDescriptionWidth,
+            isAnswered,
+          )}
         </View>
 
         {isAnswered !== NOT_ANSWERED ? (
@@ -231,45 +223,79 @@ function mapQuestionDescriptionToComponents(question, inputs, styles) {
 }
 
 /**
- * @param {Question} question
- * @param {QuestionInputs} inputs
+ * @param {Question[]} correctAnswers
  * @param {number} parentWidth
  * @param {string} isAnswered
- * @param {Function} answeredCorrectly
- * @param {Function} answeredIncorrectly
+ * @returns An array of React components
  */
-function mapQuestionOptionsToComponents(
-  question,
-  { A, B, C },
-  parentWidth,
-  isAnswered,
-  answeredCorrectly,
-  answeredIncorrectly,
-) {
-  const makeOption = (a, i, onPress) => {
-    const key = a(A, B, C);
+function mapOptionsToComponents(answers, parentWidth, isAnswered) {
+  const makeOption = (a, i) => {
+    const key = a.value;
+    const onPress = a.onPress;
     return (
       <QuestionOption
         value={key}
         key={`${i}-${key}`}
         parentWidth={parentWidth}
+        isAnswered={isAnswered}
         onSelected={onPress}
       />
     );
   };
 
-  let corrects = question.answers.map((a, i) =>
-    makeOption(a, i, answeredCorrectly),
-  );
-  let incorrects = question.other.map((a, i) =>
-    makeOption(a, i, answeredIncorrectly),
-  );
+  return answers.map(makeOption);
+}
 
-  // Return randomized array...
-  return [...corrects, ...incorrects]
+/**
+ * Function that generates the values and data of each option of the question.
+ * The options generated are guaranteed to not be equal to each other.
+ * @param {Question} question
+ * @returns {{value: number, onPress: Function}[]} The array of generated options
+ */
+function generateOptions(question, answeredCorrectly, answeredIncorrectly) {
+  const correctOptionsCount = question.answers.length;
+  const optionArray = [];
+  let inputs = {};
+
+  while (true) {
+    optionArray.splice(0);
+    const optionSet = new Set();
+
+    const { A, B, C } = generateInputs(question);
+    inputs = { A, B, C };
+    const addOptionsValues = (optionsArray, onPress) => {
+      for (let i = 0; i < optionsArray.length; i++) {
+        const optionValue = { value: optionsArray[i](A, B, C), onPress };
+        if (optionSet.has(optionValue.value)) {
+          return false;
+        } else {
+          optionSet.add(optionValue.value);
+          optionArray.push(optionValue);
+        }
+      }
+
+      return true;
+    };
+
+    if (
+      !addOptionsValues(question.answers, answeredCorrectly) ||
+      !addOptionsValues(question.other, answeredIncorrectly)
+    ) {
+      continue;
+    }
+
+    break;
+  }
+
+  const correctOptions = optionArray.slice(0, correctOptionsCount);
+  const incorrectOptions = optionArray.slice(correctOptionsCount);
+
+  const options = [...correctOptions, ...incorrectOptions]
     .map((i) => ({ i, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)
     .map(({ i }) => i);
+
+  return { options, inputs };
 }
 
 /**
