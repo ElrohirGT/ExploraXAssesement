@@ -16,9 +16,8 @@ export default function InstructionsView({
 
   return (
     <View style={styles.container} {...props}>
-      <Image source={dRocket} style={styles.dGlowLogo} resizeMode="contain" />
-
       <View style={styles.mainContent}>
+        <Image source={dRocket} style={styles.dGlowLogo} resizeMode="contain" />
         <Text style={styles.title}>{title}</Text>
         <Image
           source={dividerTitulo}
@@ -52,6 +51,7 @@ function generateStyles(screenWidth, screenHeight) {
   const contentWidth = (screenWidth * 3) / 4;
   const contentHeight = (screenHeight * 3) / 8;
   const dGlowWidth = contentWidth / 1.5;
+  const dGlowHeight = dGlowWidth * (238 / 402);
 
   const mobileStyles = StyleSheet.create({
     container: {
@@ -61,10 +61,10 @@ function generateStyles(screenWidth, screenHeight) {
 
     dGlowLogo: {
       position: "absolute",
-      top: contentHeight / 6,
-      left: -contentWidth / 20,
+      top: -dGlowHeight + 20,
+      left: -dGlowWidth / 3,
       width: dGlowWidth,
-      height: dGlowWidth,
+      height: dGlowHeight,
       zIndex: 2,
     },
 
