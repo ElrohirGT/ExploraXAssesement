@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -78,9 +77,9 @@ function generateStyles(screenWidth, screenHeight) {
 
     chaninImage: {
       position: "absolute",
-      left: -screenWidth / 2 + screenWidth / 8,
+      left: 0,
       bottom: screenHeight / 20,
-      width: screenWidth,
+      width: screenWidth / 4,
       height: screenHeight / 3,
     },
 
@@ -167,9 +166,9 @@ function generateStyles(screenWidth, screenHeight) {
 
     chaninImage: {
       position: "absolute",
-      left: -screenWidth / 2 + screenWidth / 8,
+      left: screenWidth / 10,
       bottom: screenHeight / 8,
-      width: screenWidth,
+      width: screenWidth / 10,
       height: screenHeight / 3,
     },
 
