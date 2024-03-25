@@ -1,4 +1,11 @@
-import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 
 const avatar = require("../../assets/elementos_estaticos/Chanín.png");
 const dividerTitulo = require("../../assets/elementos_estaticos/Línea_título.png");
@@ -140,7 +147,8 @@ function generateStyles(screenWidth, screenHeight) {
 
   const webContentWidth = (screenWidth * 3) / 6;
   const webContentHeight = screenHeight / 2;
-  const webDglowWidth = webContentWidth / 3;
+  const webDGlowWidth = webContentWidth / 4;
+  const webDglowHeight = webDGlowWidth * (238 / 402);
 
   const webStyles = StyleSheet.create({
     container: {
@@ -150,10 +158,10 @@ function generateStyles(screenWidth, screenHeight) {
 
     dGlowLogo: {
       position: "absolute",
-      top: -webContentHeight / 4,
-      left: webContentWidth / 2.5,
-      width: webDglowWidth,
-      height: webDglowWidth,
+      top: -webDglowHeight + 20,
+      left: -webDGlowWidth / 3,
+      width: webDGlowWidth,
+      height: webDglowHeight,
       zIndex: 2,
     },
 
