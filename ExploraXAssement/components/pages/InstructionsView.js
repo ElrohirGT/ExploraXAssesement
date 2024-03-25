@@ -9,8 +9,8 @@ import {
 
 const avatar = require("../../assets/elementos_estaticos/Chanín.png");
 const dividerTitulo = require("../../assets/elementos_estaticos/Línea_título.png");
-const dGlow = require("../../assets/elementos_estaticos/pantalla_puntos/DconGlow.png");
-const dGlowFire = require("../../assets/elementos_estaticos/pantalla_puntos/Llama.png");
+const dRocket = require("../../assets/elementos_estaticos/pantalla_puntos/DRocket.png");
+// const dGlowFire = require("../../assets/elementos_estaticos/pantalla_puntos/Llama.png");
 
 export default function InstructionsView({
   title,
@@ -24,14 +24,7 @@ export default function InstructionsView({
 
   return (
     <View style={styles.container} {...props}>
-      <View style={styles.dGlowContainer}>
-        <Image
-          source={dGlowFire}
-          style={styles.dGlowFire}
-          resizeMode="contain"
-        />
-        <Image source={dGlow} style={styles.dGlowLogo} resizeMode="contain" />
-      </View>
+      <Image source={dRocket} style={styles.dGlowLogo} resizeMode="contain" />
 
       <View style={styles.mainContent}>
         <Text style={styles.title}>{title}</Text>
@@ -61,41 +54,35 @@ export default function InstructionsView({
  */
 function generateStyles(screenWidth, screenHeight) {
   const contentWidth = (screenWidth * 3) / 4;
-  const dGlowDimension = contentWidth / 4;
+  const contentHeight = (screenHeight * 3) / 8;
+  const dGlowWidth = contentWidth / 1.5;
 
   const mobileStyles = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: "center",
-      transform: [{ translateY: 50 }],
-    },
-
-    dGlowContainer: {
-      flexDirection: "row",
-      transform: [{ scale: 1.6 }, { translateX: 75 }, { translateY: 40 }],
-      zIndex: 2,
-    },
-
-    dGlowFire: {
-      width: dGlowDimension,
-      height: dGlowDimension - 5,
     },
 
     dGlowLogo: {
-      width: dGlowDimension,
-      height: dGlowDimension,
-      transform: [{ translateY: -6 }, { translateX: -15 }],
+      position: "absolute",
+      top: contentHeight / 12,
+      left: -contentWidth / 20,
+      width: dGlowWidth,
+      height: dGlowWidth,
+      zIndex: 2,
     },
 
     chaninImage: {
-      alignSelf: "flex-start",
-      width: 100,
+      position: "absolute",
+      left: -screenWidth / 2 + screenWidth / 8,
+      bottom: 0,
+      width: screenWidth,
       height: screenHeight / 3,
     },
 
     mainContent: {
       width: contentWidth,
-      height: contentWidth,
+      height: contentHeight,
 
       gap: 5,
       padding: 30,
@@ -104,7 +91,9 @@ function generateStyles(screenWidth, screenHeight) {
       backgroundColor: "#1f4c8b",
       borderBottomWidth: 4,
       borderBottomColor: "#132f51",
-      transform: [{ translateY: 50 }],
+
+      // Push it up a little
+      transform: [{ translateY: -contentHeight / 10 }],
     },
 
     divider: {
@@ -114,19 +103,19 @@ function generateStyles(screenWidth, screenHeight) {
 
     title: {
       color: "white",
-      fontSize: 40,
+      fontSize: contentHeight / 10,
       fontWeight: "bold",
       textAlign: "center",
     },
 
     description: {
-      fontSize: 20,
+      fontSize: contentHeight / 15,
       color: "white",
       textAlign: "center",
     },
 
     mission: {
-      fontSize: 20,
+      fontSize: contentHeight / 15,
       fontWeight: "bold",
       textAlign: "center",
       color: "white",
@@ -146,13 +135,73 @@ function generateStyles(screenWidth, screenHeight) {
     },
 
     buttonText: {
-      fontSize: 20,
+      fontSize: contentHeight / 14,
       textAlign: "center",
       color: "#133362",
       fontWeight: "600",
     },
   });
-  const webStyles = StyleSheet.create({});
+
+  const webContentWidth = (screenWidth * 3) / 6;
+  const webContentHeight = screenHeight / 2;
+  const webDglowWidth = webContentWidth / 3;
+
+  const webStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: "flex-start",
+    },
+
+    dGlowLogo: {
+      position: "absolute",
+      top: -webContentHeight / 4,
+      left: webContentWidth / 2.5,
+      width: webDglowWidth,
+      height: webDglowWidth,
+      zIndex: 2,
+    },
+
+    mainContent: {
+      width: webContentWidth,
+      height: webContentHeight,
+
+      gap: 5,
+      padding: 30,
+      borderRadius: 10,
+      alignSelf: "center",
+      backgroundColor: "#1f4c8b",
+      borderBottomWidth: 4,
+      borderBottomColor: "#132f51",
+    },
+
+    title: {
+      color: "white",
+      fontSize: contentHeight / 5,
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+
+    description: {
+      fontSize: contentHeight / 8,
+      color: "white",
+      textAlign: "center",
+    },
+
+    mission: {
+      fontSize: contentHeight / 8,
+      fontWeight: "bold",
+      textAlign: "center",
+      color: "white",
+      paddingBottom: 20,
+    },
+
+    buttonText: {
+      fontSize: contentHeight / 8,
+      textAlign: "center",
+      color: "#133362",
+      fontWeight: "600",
+    },
+  });
 
   return StyleSheet.flatten(mobileStyles, webStyles);
 }
