@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -10,7 +11,6 @@ import {
 const avatar = require("../../assets/elementos_estaticos/Chanín.png");
 const dividerTitulo = require("../../assets/elementos_estaticos/Línea_título.png");
 const dRocket = require("../../assets/elementos_estaticos/pantalla_puntos/DRocket.png");
-// const dGlowFire = require("../../assets/elementos_estaticos/pantalla_puntos/Llama.png");
 
 export default function InstructionsView({
   title,
@@ -37,7 +37,11 @@ export default function InstructionsView({
         <Text style={styles.description}>{description}</Text>
         <Text style={styles.mission}>{mission}</Text>
 
-        <Pressable style={styles.button} onPress={onNextButtonPressed}>
+        <Pressable
+          style={styles.button}
+          onPressOut={onNextButtonPressed}
+          hitSlop="10"
+        >
           <Text style={styles.buttonText}>¡ACEPTO EL RETO!</Text>
         </Pressable>
       </View>
