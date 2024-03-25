@@ -6,11 +6,12 @@ import { DEFAULT_QUESTIONS } from "../constants";
 
 const INSTRUCTIONS_VIEW_PAGE = "instructions";
 const QUESTION_VIEW_PAGE = "question";
+const SUMMARY_VIEW_PAGE = "summary";
 
 export default function Main() {
   const styles = StyleSheet.flatten(mobileStyles, webStyles);
-  const [currentView, setCurrentView] = useState(QUESTION_VIEW_PAGE);
-  const [questions, setQuestions] = useState(DEFAULT_QUESTIONS);
+  const [currentView, setCurrentView] = useState(INSTRUCTIONS_VIEW_PAGE);
+  const [questions, _setQuestions] = useState(DEFAULT_QUESTIONS);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -31,7 +32,19 @@ export default function Main() {
       title="Desafíate"
       question={currentQuestion}
       progress={{ min: currentQuestionIndex + 1, max: questions.length }}
+      onNextButtonPressed={() => {
+        if (currentQuestionIndex + 1 < questions.length) {
+          setCurrentQuestionIndex(currentQuestionIndex + 1);
+        } else {
+          setCurrentView(SUMMARY_VIEW_PAGE);
+        }
+      }}
     />
+  );
+  VIEWS[SUMMARY_VIEW_PAGE] = (
+    <Text style={{ color: "white", fontSize: 50, alignSelf: "center" }}>
+      TODO: SUMMARY
+    </Text>
   );
 
   return <View style={styles.container}>{VIEWS[currentView]}</View>;

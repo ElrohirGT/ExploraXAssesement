@@ -19,22 +19,22 @@ const divider = require("../../assets/elementos_estaticos/Línea_título.png")
  * @typedef {Object} QuestionViewProps
  * @property {Question} question - The information of the current question to render
  * @property {Range} progress - How many questions have we answered and how many are left
+ * @property {Function} onNextButtonPressed - Function to call when the next button is pressed
  */
 
 /**
  * @param {QuestionViewProps} props
  */
-export default function QuestionView({ title, question, progress }) {
+export default function QuestionView({
+  title,
+  question,
+  progress,
+  onNextButtonPressed,
+}) {
   const styles = StyleSheet.flatten(mobileStyles, webStyles);
   const [isAnswered, setIsAnswered] = useState(NOT_ANSWERED);
-  const answeredCorrectly = () => {
-    console.log("Answered correctly!");
-    setIsAnswered(IS_CORRECT);
-  };
-  const answeredIncorrectly = () => {
-    console.log("Answered incorrectly!");
-    setIsAnswered(IS_INCORRECT);
-  };
+  const answeredCorrectly = () => setIsAnswered(IS_CORRECT);
+  const answeredIncorrectly = () => setIsAnswered(IS_INCORRECT);
 
   const { width } = useWindowDimensions();
   const questionDescriptionWidth = (width * 3) / 4;
@@ -42,6 +42,13 @@ export default function QuestionView({ title, question, progress }) {
     () => generateOptions(question, answeredCorrectly, answeredIncorrectly),
     [question],
   );
+
+  const ON_NEXT_BUTTON_PRESSED = () => {
+    // Resetting state
+    setIsAnswered(NOT_ANSWERED);
+
+    onNextButtonPressed();
+  };
 
   return (
     <View style={styles.container}>
@@ -92,6 +99,7 @@ export default function QuestionView({ title, question, progress }) {
               styles.nextButton,
               { width: (questionDescriptionWidth * 3) / 5 },
             ]}
+            onPress={ON_NEXT_BUTTON_PRESSED}
           >
             <Text style={styles.nextButtonText}>SIGUIENTE</Text>
           </Pressable>
