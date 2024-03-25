@@ -33,15 +33,25 @@ export const DEFAULT_QUESTIONS = [
     B: [2, 10],
     C: [2, 10],
 
-    answers: [
-      (a, b, c) => {
-        a + b * c;
-      },
-    ],
+    answers: [(a, b, c) => a + b * c],
     other: [
       (a, b, c) => (a + b) * c,
       (a, b, c) => a + b + c,
       (a, b, c) => a * b + c,
+    ],
+  },
+  {
+    description: "AxB-C=?",
+    A: [1, 10],
+    B: [2, 10],
+    C: [2, 10],
+
+    answers: [(a, b, c) => a * b - c],
+
+    other: [
+      (a, b, c) => a * (b - c),
+      (a, b, c) => a * b + c,
+      (a, b, c) => a + b - c,
     ],
   },
 ];

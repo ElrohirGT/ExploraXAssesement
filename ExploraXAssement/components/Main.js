@@ -28,6 +28,7 @@ export default function Main() {
 
   VIEWS[QUESTION_VIEW_PAGE] = (
     <QuestionView
+      title="Desafíate"
       question={currentQuestion}
       progress={{ min: currentQuestionIndex + 1, max: questions.length }}
     />

@@ -3,6 +3,7 @@ import { IS_ANDROID, IS_WEB } from "../constants";
 import UpArrowSVG from "./atoms/UpArrowSVG";
 
 const coin = require("../assets/elementos_estaticos/moneda.png");
+const planet = require("../assets/elementos_estaticos/PlanetaAritmética.png");
 
 export default function Header({ money }) {
   const styles = IS_WEB
@@ -11,13 +12,14 @@ export default function Header({ money }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.coinImageContainer}>
+      <Image source={planet} resizeMode="contain" style={styles.planetImage} />
+      <View style={styles.coinDisplayContainer}>
         <Image source={coin} style={styles.coinImage} resizeMode="contain" />
+        <Text style={styles.coinsText}>{money}</Text>
+        <Pressable style={styles.moreCoinsButton}>
+          <UpArrowSVG style={styles.moreCoinsButtonIcon} />
+        </Pressable>
       </View>
-      <Text style={styles.coinsText}>{money}</Text>
-      <Pressable style={styles.moreCoinsButton}>
-        <UpArrowSVG style={styles.moreCoinsButtonIcon} />
-      </Pressable>
     </View>
   );
 }
@@ -25,17 +27,29 @@ export default function Header({ money }) {
 const mobileStyles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-end",
     flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    gap: 5,
     padding: 10,
   },
-  coinImageContainer: {
-    marginRight: -10,
-    zIndex: 2,
+
+  coinDisplayContainer: {
+    justifyContent: "flex-end",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 5,
   },
-  coinImage: {},
+
+  coinImage: {
+    marginRight: -20,
+    zIndex: 2,
+    height: 32,
+  },
+
+  planetImage: {
+    width: 64,
+  },
+
   coinsText: {
     backgroundColor: "#111e55",
     fontSize: 18,

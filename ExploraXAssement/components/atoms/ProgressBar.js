@@ -18,39 +18,31 @@ export default function ProgressBar({ max, current }) {
   };
 
   return (
-    <View onLayout={onLayoutChanged} style={styles.container}>
-      <Text style={styles.progressText}>
-        {current} / {max}
-      </Text>
-      <View style={[styles.progressContainer, { borderRadius: parentWidth }]}>
-        <View
-          style={[
-            styles.progress,
-            { width: (current * parentWidth) / max, borderRadius: parentWidth },
-          ]}
-        />
-      </View>
+    <View
+      style={[styles.progressContainer, { borderRadius: parentWidth }]}
+      onLayout={onLayoutChanged}
+    >
+      <View
+        style={[
+          styles.progress,
+          { width: (current * parentWidth) / max, borderRadius: parentWidth },
+        ]}
+      />
     </View>
   );
 }
 
 const mobileStyles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  progressText: {
-    color: "white",
-    fontSize: 18,
-  },
-
   progressContainer: {
     backgroundColor: "white",
     minWidth: 2,
+    alignSelf: "stretch",
+    borderBottomColor: "#8d8d8d",
+    borderBottomWidth: 2,
   },
 
   progress: {
-    height: 10,
+    height: 15,
     backgroundColor: "#e8a34b",
   },
 });
