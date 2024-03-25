@@ -58,8 +58,8 @@ function generateStyles(screenWidth, screenHeight) {
     },
 
     planetImage: {
-      width: screenWidth / 5,
-      height: screenHeight / 5,
+      width: Math.min(screenHeight / 5, screenWidth / 5),
+      height: Math.min(screenHeight / 5, screenWidth / 5),
     },
 
     coinDisplayContainer: {
@@ -110,6 +110,14 @@ function generateStyles(screenWidth, screenHeight) {
   });
 
   const webStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      padding: screenWidth / 50,
+    },
+
     coinImage: {
       position: "absolute",
       zIndex: 2,
