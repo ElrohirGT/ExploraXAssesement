@@ -12,12 +12,11 @@ import StoreSVG from "./atoms/StoreSVG";
 import ChestSVG from "./atoms/ChestSVG";
 import RankingSVG from "./atoms/RankingSVG";
 
-import { IS_ANDROID } from "../constants";
-
 const MENU_BUTTON_DIMENSIONS = {
   width: 50,
   height: 50,
 };
+
 const logo = require("../assets/elementos_estaticos/logo_fondo_oscuro.png");
 
 export default function Footer() {
