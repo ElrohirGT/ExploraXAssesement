@@ -31,13 +31,13 @@ export default function QuestionView({
   progress,
   onNextButtonPressed,
 }) {
-  const styles = StyleSheet.flatten(mobileStyles, webStyles);
+  const { width, heigth } = useWindowDimensions();
+  const questionDescriptionWidth = (width * 3) / 4;
+  const styles = generateStyles(width, heigth, questionDescriptionWidth);
   const [isAnswered, setIsAnswered] = useState(NOT_ANSWERED);
   const answeredCorrectly = () => setIsAnswered(IS_CORRECT);
   const answeredIncorrectly = () => setIsAnswered(IS_INCORRECT);
 
-  const { width } = useWindowDimensions();
-  const questionDescriptionWidth = (width * 3) / 4;
   const { options, inputs } = useMemo(
     () => generateOptions(question, answeredCorrectly, answeredIncorrectly),
     [question],
@@ -54,53 +54,35 @@ export default function QuestionView({
     <View style={styles.container}>
       <View style={styles.questionContainer}>
         <Text style={styles.questionTitle}>{title}</Text>
-        <Image
-          source={divider}
-          style={[styles.divider, { width: width / 4 }]}
-          resizeMode="stretch"
-        />
+        <Image source={divider} style={styles.divider} resizeMode="stretch" />
 
-        <View
-          style={[
-            styles.progressBarContainer,
-            { width: questionDescriptionWidth * 1.2 },
-          ]}
-        >
+        <View style={styles.progressBarContainer}>
           <Text style={styles.progressText}>
             Nivel {progress.min}/{progress.max}
           </Text>
           <ProgressBar max={progress.max} current={progress.min} />
         </View>
 
-        <View
-          style={[
-            styles.questionDescriptionContainer,
-            { width: questionDescriptionWidth },
-          ]}
-        >
+        <View style={styles.questionDescriptionContainer}>
           {mapQuestionDescriptionToComponents(question, inputs, styles)}
         </View>
-        <View
-          style={[
-            styles.questionOptionsContainer,
-            { width: questionDescriptionWidth },
-          ]}
-        >
-          {mapOptionsToComponents(
-            options,
-            questionDescriptionWidth,
-            isAnswered,
-          )}
+        <View style={styles.questionOptionsContainer}>
+          {options.map(({ value, onPress, isCorrectAnswer }, i) => {
+            return (
+              <QuestionOption
+                value={value}
+                key={`${i}-${value}`}
+                parentWidth={questionDescriptionWidth}
+                isAnswered={isAnswered}
+                isCorrectAnswer={isCorrectAnswer}
+                onSelected={onPress}
+              />
+            );
+          })}
         </View>
 
         {isAnswered !== NOT_ANSWERED ? (
-          <Pressable
-            style={[
-              styles.nextButton,
-              { width: (questionDescriptionWidth * 3) / 5 },
-            ]}
-            onPress={ON_NEXT_BUTTON_PRESSED}
-          >
+          <Pressable style={styles.nextButton} onPress={ON_NEXT_BUTTON_PRESSED}>
             <Text style={styles.nextButtonText}>SIGUIENTE</Text>
           </Pressable>
         ) : null}
@@ -112,95 +94,112 @@ export default function QuestionView({
   );
 }
 
-const mobileStyles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
+/**
+ * Generates the styles of the component with the given screen width and screen height
+ * @param {number} screenWidth
+ * @param {number} screenHeight
+ */
+function generateStyles(screenWidth, screenHeight, questionDescriptionWidth) {
+  const mobileStyles = StyleSheet.create({
+    container: {
+      flexGrow: 1,
+      paddingRight: 20,
+      paddingLeft: 20,
+    },
 
-  questionContainer: {
-    alignItems: "center",
-    gap: 12,
-  },
+    questionContainer: {
+      alignItems: "center",
+      gap: 12,
+    },
 
-  questionTitle: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 24,
-    fontWeight: "bold",
-  },
+    questionTitle: {
+      color: "white",
+      textAlign: "center",
+      fontSize: 24,
+      fontWeight: "bold",
+    },
 
-  divider: {
-    alignSelf: "center",
-  },
+    divider: {
+      alignSelf: "center",
+      width: screenWidth / 4,
+    },
 
-  progressBarContainer: {},
+    progressBarContainer: {
+      width: questionDescriptionWidth * 1.2,
+    },
 
-  progressText: {
-    color: "white",
-    fontSize: 14,
-  },
+    progressText: {
+      color: "white",
+      fontSize: 14,
+    },
 
-  nextButton: {
-    backgroundColor: "white",
-    borderBottomColor: "#8d8d8d",
-    borderBottomWidth: 4,
-    padding: 10,
-    borderRadius: 10,
-    alignItems: "center",
-  },
+    nextButton: {
+      width: (questionDescriptionWidth * 3) / 5,
 
-  nextButtonText: {
-    color: "#133362",
-    fontWeight: "bold",
-  },
+      backgroundColor: "white",
+      borderBottomColor: "#8d8d8d",
+      borderBottomWidth: 4,
+      padding: 10,
+      borderRadius: 10,
+      alignItems: "center",
+    },
 
-  reportQuestionText: {
-    color: "white",
-    textDecorationLine: "underline",
-  },
+    nextButtonText: {
+      color: "#133362",
+      fontWeight: "bold",
+    },
 
-  questionDescriptionContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    backgroundColor: "white",
-    borderBottomColor: "#8d8d8d",
-    borderBottomWidth: 4,
-    borderRadius: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    gap: 5,
-  },
+    reportQuestionText: {
+      color: "white",
+      textDecorationLine: "underline",
+    },
 
-  questionOptionsContainer: {
-    flexGrow: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
-    justifyContent: "space-between",
-  },
+    questionDescriptionContainer: {
+      width: questionDescriptionWidth,
 
-  questionMark: {
-    backgroundColor: "#76c7cb",
-    color: "white",
-    borderRadius: 5,
-    fontSize: 40,
-    fontWeight: "bold",
-    alignSelf: "center",
-    padding: 10,
-    borderRadius: 10,
-  },
+      flexDirection: "row",
+      justifyContent: "center",
+      backgroundColor: "white",
+      borderBottomColor: "#8d8d8d",
+      borderBottomWidth: 4,
+      borderRadius: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      gap: 5,
+    },
 
-  questionDescription: {
-    color: "#133362",
-    fontSize: 40,
-    fontWeight: "bold",
-    alignSelf: "center",
-  },
-});
-const webStyles = StyleSheet.create({});
+    questionOptionsContainer: {
+      width: questionDescriptionWidth,
 
+      flexGrow: 1,
+      flexDirection: "row",
+      flexWrap: "wrap",
+      gap: 10,
+      justifyContent: "space-between",
+    },
+
+    questionMark: {
+      backgroundColor: "#76c7cb",
+      color: "white",
+      borderRadius: 5,
+      fontSize: 40,
+      fontWeight: "bold",
+      alignSelf: "center",
+      padding: 10,
+      borderRadius: 10,
+    },
+
+    questionDescription: {
+      color: "#133362",
+      fontSize: 40,
+      fontWeight: "bold",
+      alignSelf: "center",
+    },
+  });
+  const webStyles = StyleSheet.create({});
+
+  return StyleSheet.flatten(mobileStyles, webStyles);
+}
 /**
  * Number inputs to render a question
  * @typedef {{A: number, B: number, C: number}} QuestionInputs
