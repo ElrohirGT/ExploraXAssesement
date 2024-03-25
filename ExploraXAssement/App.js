@@ -30,8 +30,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "stretch",
     justifyContent: "center",
+    overflow: "hidden",
   },
   backgroundImage: {
-    flexGrow: 1,
+    flex: 1,
   },
 });

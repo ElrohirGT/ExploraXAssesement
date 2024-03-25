@@ -114,7 +114,31 @@ function generateStyles(screenWidth, screenHeight) {
     },
   });
 
-  const webStyles = StyleSheet.create({});
+  const webStyles = StyleSheet.create({
+    menuLogo: {
+      flex: 2,
+      alignSelf: "center",
+      height: menuLogoHeight,
+      marginBottom: menuLogoHeight / 1.5,
+    },
+
+    backgroundShape: {
+      position: "absolute",
+
+      borderColor: "#61c9d2",
+      borderTopWidth: 5,
+      borderRightWidth: 5,
+      borderLeftWidth: 5,
+      backgroundColor: "#0e4c71",
+      zIndex: 1,
+
+      width: screenWidth,
+      height: screenWidth,
+      top: menuLogoHeight / -1.2,
+      borderRadius: screenWidth,
+      transform: [{ scaleX: 2 }],
+    },
+  });
 
   return StyleSheet.flatten(mobileStyles, webStyles);
 }
