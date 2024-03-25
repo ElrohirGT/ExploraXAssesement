@@ -229,19 +229,16 @@ function mapQuestionDescriptionToComponents(question, inputs, styles) {
  * @returns An array of React components
  */
 function mapOptionsToComponents(answers, parentWidth, isAnswered) {
-  const makeOption = (a, i) => {
-    const key = a.value;
-    const onPress = a.onPress;
-    return (
-      <QuestionOption
-        value={key}
-        key={`${i}-${key}`}
-        parentWidth={parentWidth}
-        isAnswered={isAnswered}
-        onSelected={onPress}
-      />
-    );
-  };
+  const makeOption = ({ value, onPress, isCorrectAnswer }, i) => (
+    <QuestionOption
+      value={value}
+      key={`${i}-${value}`}
+      parentWidth={parentWidth}
+      isAnswered={isAnswered}
+      isCorrectAnswer={isCorrectAnswer}
+      onSelected={onPress}
+    />
+  );
 
   return answers.map(makeOption);
 }
@@ -263,9 +260,13 @@ function generateOptions(question, answeredCorrectly, answeredIncorrectly) {
 
     const { A, B, C } = generateInputs(question);
     inputs = { A, B, C };
-    const addOptionsValues = (optionsArray, onPress) => {
+    const addOptionsValues = (optionsArray, onPress, isCorrectAnswer) => {
       for (let i = 0; i < optionsArray.length; i++) {
-        const optionValue = { value: optionsArray[i](A, B, C), onPress };
+        const optionValue = {
+          value: optionsArray[i](A, B, C),
+          onPress,
+          isCorrectAnswer,
+        };
         if (optionSet.has(optionValue.value)) {
           return false;
         } else {
@@ -278,8 +279,8 @@ function generateOptions(question, answeredCorrectly, answeredIncorrectly) {
     };
 
     if (
-      !addOptionsValues(question.answers, answeredCorrectly) ||
-      !addOptionsValues(question.other, answeredIncorrectly)
+      !addOptionsValues(question.answers, answeredCorrectly, true) ||
+      !addOptionsValues(question.other, answeredIncorrectly, false)
     ) {
       continue;
     }
