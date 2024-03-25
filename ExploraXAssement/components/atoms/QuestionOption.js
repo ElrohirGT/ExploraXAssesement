@@ -24,13 +24,6 @@ export default function QuestionOption({
   isAnswered,
   isCorrectAnswer,
 }) {
-  const styles = StyleSheet.flatten(mobileStyles, webStyles);
-  const [isSelected, setIsSelected] = useState(false);
-  const onPress = () => {
-    setIsSelected(true);
-    onSelected();
-  };
-
   const [buttonDimensions, setButtonDimensions] = useState({
     width: 0,
     height: 0,
@@ -38,6 +31,17 @@ export default function QuestionOption({
   const onLayoutChange = (e) => {
     const { width, height } = e.nativeEvent.layout;
     setButtonDimensions({ width, height });
+  };
+
+  const styles = generateStyles(
+    buttonDimensions.width,
+    buttonDimensions.height,
+  );
+
+  const [isSelected, setIsSelected] = useState(false);
+  const onPress = () => {
+    setIsSelected(true);
+    onSelected();
   };
 
   const isSelectedAndCorrect = isSelected && isAnswered === IS_CORRECT;
@@ -60,15 +64,7 @@ export default function QuestionOption({
       {isCorrectButNotSelected ? (
         <Image
           source={correctIcon}
-          style={[
-            styles.correctIcon,
-            {
-              transform: [
-                { translateX: buttonDimensions.width * 0.85 },
-                { translateY: buttonDimensions.height * -0.15 },
-              ],
-            },
-          ]}
+          style={styles.correctIcon}
           resizeMode="contain"
         />
       ) : null}
@@ -77,38 +73,44 @@ export default function QuestionOption({
   );
 }
 
-const mobileStyles = StyleSheet.create({
-  optionButton: {
-    backgroundColor: "#6ab1b5",
-    borderBottomColor: "#448b8c",
-    borderBottomWidth: 4,
-    padding: 5,
-    borderRadius: 10,
-  },
+function generateStyles(buttonWidth, buttonHeight) {
+  const mobileStyles = StyleSheet.create({
+    optionButton: {
+      backgroundColor: "#6ab1b5",
+      borderBottomColor: "#448b8c",
+      borderBottomWidth: 4,
+      padding: 5,
+      borderRadius: 10,
+    },
 
-  correctIcon: {
-    width: 32,
-    height: 32,
-    position: "absolute",
-    transform: [{ translateX: 110 }],
-  },
+    correctIcon: {
+      width: 32,
+      height: 32,
 
-  correctlySelectedButton: {
-    backgroundColor: "#6fba3b",
-    borderBottomColor: "#4f9c2f",
-  },
+      position: "absolute",
+      top: -buttonHeight / 5,
+      left: buttonWidth - 20,
+    },
 
-  incorrectlySelectedButton: {
-    backgroundColor: "#e4323c",
-    borderBottomColor: "#b12b41",
-  },
+    correctlySelectedButton: {
+      backgroundColor: "#6fba3b",
+      borderBottomColor: "#4f9c2f",
+    },
 
-  optionText: {
-    color: "white",
-    fontSize: 40,
-    alignSelf: "center",
-    fontWeight: "bold",
-  },
-});
+    incorrectlySelectedButton: {
+      backgroundColor: "#e4323c",
+      borderBottomColor: "#b12b41",
+    },
 
-const webStyles = StyleSheet.create({});
+    optionText: {
+      color: "white",
+      fontSize: 40,
+      alignSelf: "center",
+      fontWeight: "bold",
+    },
+  });
+
+  const webStyles = StyleSheet.create({});
+
+  return StyleSheet.flatten(mobileStyles, webStyles);
+}

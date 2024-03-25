@@ -31,9 +31,9 @@ export default function QuestionView({
   progress,
   onNextButtonPressed,
 }) {
-  const { width, heigth } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const questionDescriptionWidth = (width * 3) / 4;
-  const styles = generateStyles(width, heigth, questionDescriptionWidth);
+  const styles = generateStyles(width, height, questionDescriptionWidth);
   const [isAnswered, setIsAnswered] = useState(NOT_ANSWERED);
   const answeredCorrectly = () => setIsAnswered(IS_CORRECT);
   const answeredIncorrectly = () => setIsAnswered(IS_INCORRECT);
@@ -46,7 +46,6 @@ export default function QuestionView({
   const ON_NEXT_BUTTON_PRESSED = () => {
     // Resetting state
     setIsAnswered(NOT_ANSWERED);
-
     onNextButtonPressed();
   };
 
@@ -115,7 +114,7 @@ function generateStyles(screenWidth, screenHeight, questionDescriptionWidth) {
     questionTitle: {
       color: "white",
       textAlign: "center",
-      fontSize: 24,
+      fontSize: screenHeight / 25,
       fontWeight: "bold",
     },
 
@@ -196,7 +195,15 @@ function generateStyles(screenWidth, screenHeight, questionDescriptionWidth) {
       alignSelf: "center",
     },
   });
-  const webStyles = StyleSheet.create({});
+
+  const webStyles = StyleSheet.create({
+    questionTitle: {
+      color: "white",
+      textAlign: "center",
+      fontSize: screenHeight / 15,
+      fontWeight: "bold",
+    },
+  });
 
   return StyleSheet.flatten(mobileStyles, webStyles);
 }
