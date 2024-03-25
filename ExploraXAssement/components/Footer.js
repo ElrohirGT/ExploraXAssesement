@@ -138,7 +138,7 @@ function generateStyles(screenWidth, screenHeight) {
 
       width: screenWidth,
       height: screenWidth,
-      top: -webMenuLogoHeight / 7,
+      top: -webMenuLogoHeight / 5,
       borderRadius: screenWidth,
       transform: [{ scaleX: 2 }],
     },
