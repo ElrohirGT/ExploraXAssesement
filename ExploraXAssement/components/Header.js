@@ -1,11 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  Image,
-  useWindowDimensions,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { IS_ANDROID, IS_WEB } from "../constants";
 import UpArrowSVG from "./atoms/UpArrowSVG";
 

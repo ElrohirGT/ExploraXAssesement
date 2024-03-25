@@ -1,11 +1,4 @@
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
 import ChestSVG from "./atoms/ChestSVG";
 import HomeSVG from "./atoms/HomeSVG";

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { StyleSheet, ImageBackground, SafeAreaView } from "react-native";
+import { ImageBackground, SafeAreaView, StyleSheet } from "react-native";
+import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Main from "./components/Main";
-import Footer from "./components/Footer";
 
 const background = require("./assets/elementos_estaticos/Fondo.png");
 

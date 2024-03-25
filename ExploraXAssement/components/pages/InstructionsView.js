@@ -1,11 +1,4 @@
-import {
-  View,
-  StyleSheet,
-  useWindowDimensions,
-  Pressable,
-  Text,
-  Image,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 
 const avatar = require("../../assets/elementos_estaticos/Chanín.png");
 const dividerTitulo = require("../../assets/elementos_estaticos/Línea_título.png");

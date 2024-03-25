@@ -1,16 +1,9 @@
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  Pressable,
-  useWindowDimensions,
-} from "react-native";
-import ProgressBar from "../atoms/ProgressBar";
-import { genericJoin } from "../../lib";
-import QuestionOption from "../atoms/QuestionOption";
 import { useMemo, useState } from "react";
+import { Image, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { genericJoin } from "../../lib";
 import { IS_CORRECT, IS_INCORRECT, NOT_ANSWERED } from "../../lib";
+import ProgressBar from "../atoms/ProgressBar";
+import QuestionOption from "../atoms/QuestionOption";
 
 const divider = require("../../assets/elementos_estaticos/Línea_título.png");
 
@@ -80,11 +73,13 @@ export default function QuestionView({
           })}
         </View>
 
-        {isAnswered !== NOT_ANSWERED ? (
-          <Pressable style={styles.nextButton} onPress={ON_NEXT_BUTTON_PRESSED}>
-            <Text style={styles.nextButtonText}>SIGUIENTE</Text>
-          </Pressable>
-        ) : null}
+        {isAnswered !== NOT_ANSWERED
+          ? (
+            <Pressable style={styles.nextButton} onPress={ON_NEXT_BUTTON_PRESSED}>
+              <Text style={styles.nextButtonText}>SIGUIENTE</Text>
+            </Pressable>
+          )
+          : null}
         <Pressable>
           <Text style={styles.reportQuestionText}>Reportar pregunta</Text>
         </Pressable>
@@ -293,8 +288,8 @@ function generateOptions(question, answeredCorrectly, answeredIncorrectly) {
     };
 
     if (
-      !addOptionsValues(question.answers, answeredCorrectly, true) ||
-      !addOptionsValues(question.other, answeredIncorrectly, false)
+      !addOptionsValues(question.answers, answeredCorrectly, true)
+      || !addOptionsValues(question.other, answeredIncorrectly, false)
     ) {
       continue;
     }
@@ -321,7 +316,7 @@ function generateInputs(question) {
   const [A, B, C] = [question.A, question.B, question.C].map(([min, max]) =>
     // Obtained from
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-    Math.floor(Math.random() * (max - min + 1) + min),
+    Math.floor(Math.random() * (max - min + 1) + min)
   );
 
   return { A, B, C };

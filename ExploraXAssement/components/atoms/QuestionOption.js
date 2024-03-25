@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable, Text, StyleSheet, Image } from "react-native";
+import { Image, Pressable, StyleSheet, Text } from "react-native";
 import { IS_CORRECT, IS_INCORRECT, NOT_ANSWERED } from "../../lib";
 
 const correctIcon = require("../../assets/elementos_estaticos/check.png");
@@ -46,8 +46,7 @@ export default function QuestionOption({
 
   const isSelectedAndCorrect = isSelected && isAnswered === IS_CORRECT;
   const isSelectedAndIncorrect = isSelected && isAnswered === IS_INCORRECT;
-  const isCorrectButNotSelected =
-    isCorrectAnswer && !isSelected && isAnswered !== NOT_ANSWERED;
+  const isCorrectButNotSelected = isCorrectAnswer && !isSelected && isAnswered !== NOT_ANSWERED;
 
   return (
     <Pressable
@@ -61,13 +60,15 @@ export default function QuestionOption({
       disabled={isAnswered !== NOT_ANSWERED}
       onLayout={onLayoutChange}
     >
-      {isCorrectButNotSelected ? (
-        <Image
-          source={correctIcon}
-          style={styles.correctIcon}
-          resizeMode="contain"
-        />
-      ) : null}
+      {isCorrectButNotSelected
+        ? (
+          <Image
+            source={correctIcon}
+            style={styles.correctIcon}
+            resizeMode="contain"
+          />
+        )
+        : null}
       <Text style={styles.optionText}>{value}</Text>
     </Pressable>
   );

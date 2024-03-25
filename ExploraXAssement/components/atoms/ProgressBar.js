@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Image, StyleSheet, Text } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 /**
  * @typedef {Object} ProgressBarProps

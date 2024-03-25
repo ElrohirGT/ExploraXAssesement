@@ -1,8 +1,8 @@
-import { View, StyleSheet, Text } from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { DEFAULT_QUESTIONS } from "../constants";
 import InstructionsView from "./pages/InstructionsView";
 import QuestionView from "./pages/QuestionView";
-import { useState } from "react";
-import { DEFAULT_QUESTIONS } from "../constants";
 
 const INSTRUCTIONS_VIEW_PAGE = "instructions";
 const QUESTION_VIEW_PAGE = "question";
